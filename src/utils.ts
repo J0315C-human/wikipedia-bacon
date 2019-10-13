@@ -44,11 +44,24 @@ function getValidLinks(html: string) {
   return links.filter((link, idx) => links.indexOf(link) === idx);
 }
 
-export async function getPageFromUrl(url: string): Promise<Page> {
-  const response = await axios(url);
-  const links = getValidLinks(response.data);
-  return {
-    id: url,
-    outgoingLinks: links
-  };
+export async function getPageFromUrl(
+  url: string,
+  retries = 0
+): Promise<Page | undefined> {
+  try {
+    const response = await axios(url, { timeout: 30000 });
+    const links = getValidLinks(response.data);
+    return {
+      id: url,
+      outgoingLinks: links
+    };
+  } catch (err) {
+    if (retries) {
+      console.log('RETRYING ' + retries + ': ' + url);
+      return getPageFromUrl(url, retries - 1);
+    } else {
+      console.log('ERROR GETTING PAGE ' + url);
+      return undefined;
+    }
+  }
 }

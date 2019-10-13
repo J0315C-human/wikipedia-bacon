@@ -7,6 +7,9 @@ export default class BFS<Node extends GraphNode> {
 
   constructor(graph: Graph<Node>) {
     this.graph = graph;
+    setInterval(() => {
+      console.log('QUEUE LENGTH: ' + this.queue.queue.length);
+    }, 5000);
   }
 
   markNodeVisited = (node: Node) => {
@@ -24,7 +27,7 @@ export default class BFS<Node extends GraphNode> {
     });
   };
 
-  performBFS = (start: Node, goalId: string) => {
+  performBFS = async (start: Node, goalId: string) => {
     // reset bookkeeping state
     this.queue.clear();
     this.graph.resetTraversalState();
@@ -36,7 +39,7 @@ export default class BFS<Node extends GraphNode> {
         // Goal node found
         return this.graph.getParentPath(start, node);
       }
-      this.enqueueUnvisitedNeighbors(node);
+      await this.enqueueUnvisitedNeighbors(node);
     }
     console.log('Unable to find path to ' + goalId);
     return null;
