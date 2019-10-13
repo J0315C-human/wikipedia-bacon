@@ -3,7 +3,7 @@ import { Graph } from './Graph';
 export interface Page {
   id: string; // use URL as ID
   outgoingLinks: string[];
-  parent: Page | undefined;
+  parent?: Page;
 }
 
 export default class PageGraph implements Graph<Page> {
