@@ -2,20 +2,29 @@
   "name": "bacon",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src./index.ts",
+  "engines": {
+    "node": "10.16.3",
+    "npm": "6.9.0"
+  },
   "scripts": {
-    "start": "./node_modules/ts-node/dist/bin.js ./src/index.ts",
+    "start": "./node_modules/ts-node/dist/bin.js --project tsconfig.json ./src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
     "ts-node": "^8.4.1",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "urijs": "^1.19.1"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.13",
     "@types/node": "^12.7.12",
+    "@types/urijs": "^1.19.4",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
     "eslint": "^6.5.1",
