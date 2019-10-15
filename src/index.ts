@@ -18,7 +18,7 @@ const runSearch = async (startUrl: string) => {
   if (result) {
     console.log('=========================================');
     console.log('============ RESULT FOUND ===============');
-    console.log('\nNumber of links to Kevin Bacon: ' + (result.length - 1));
+    console.log('\nNumber of degrees to Kevin Bacon: ' + (result.length - 1));
     console.log('\nPath found: ');
     // log the resulting path
     result.forEach(page => console.log(' -> ' + page.id));
