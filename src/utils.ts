@@ -58,7 +58,6 @@ export async function getPageFromUrl(
     const pathString = `${
       parent ? parent.pathString + ' -> ' : ''
     }${getWikiPageName(url)}`;
-    console.log(pathString);
     return {
       id: url,
       outgoingLinks: links,
