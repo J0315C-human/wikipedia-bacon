@@ -7,6 +7,8 @@ It's a node console program - all input/output is through the console.
 
 To run, `npm install` and `npm start` from the root directory.
 
+To run the tests, `npm run test` from the root directory.
+
 ## Notes
 😳😅
 
