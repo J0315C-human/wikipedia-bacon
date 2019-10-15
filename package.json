@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "./node_modules/ts-node/dist/bin.js --project tsconfig.json ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ts-mocha -p tsconfig.json test/**/*.test.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,14 +22,21 @@
     "urijs": "^1.19.1"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.3",
     "@types/cheerio": "^0.22.13",
+    "@types/mocha": "^5.2.7",
     "@types/node": "^12.7.12",
+    "@types/sinon": "^7.5.0",
     "@types/urijs": "^1.19.4",
     "@typescript-eslint/eslint-plugin": "^2.3.3",
     "@typescript-eslint/parser": "^2.3.3",
+    "chai": "^4.2.0",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-prettier": "^3.1.1",
-    "prettier": "^1.18.2"
+    "mocha": "^6.2.1",
+    "prettier": "^1.18.2",
+    "sinon": "^7.5.0",
+    "ts-mocha": "^6.0.0"
   }
 }
