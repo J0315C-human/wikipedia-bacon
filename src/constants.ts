@@ -1,4 +1,4 @@
-export const urlBlacklist = [
+export const URL_BLACKLIST = [
   'action=edit',
   'redlink=1',
   '/Special:',
@@ -27,3 +27,5 @@ export const urlBlacklist = [
   '/Module:',
   '/Module_talk:'
 ];
+
+export const FETCH_RETRIES = 3;

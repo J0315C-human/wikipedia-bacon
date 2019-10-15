@@ -1,23 +1,21 @@
 import { Graph, GraphNode } from './Graph';
 import Queue from './Queue';
 
+/** Generic Breadth-First Search class */
 export default class BFS<Node extends GraphNode> {
   queue = new Queue<Node>();
   graph: Graph<Node>;
 
   constructor(graph: Graph<Node>) {
     this.graph = graph;
-    setInterval(() => {
-      console.log('QUEUE LENGTH: ' + this.queue.queue.length);
-    }, 5000);
   }
 
-  markNodeVisited = (node: Node) => {
+  private markNodeVisited = (node: Node) => {
     this.graph.markVisited(node);
     this.queue.push(node);
   };
 
-  enqueueUnvisitedNeighbors = async (node: Node) => {
+  private enqueueUnvisitedNeighbors = async (node: Node) => {
     const neighbors = await this.graph.getUnvisitedNeighbors(node);
     neighbors.forEach(neighbor => {
       this.graph.markVisited(neighbor);
@@ -31,10 +29,10 @@ export default class BFS<Node extends GraphNode> {
     // reset bookkeeping state
     this.queue.clear();
     this.graph.resetTraversalState();
-    // start traditional BFS
+    // start BFS algorithm
     this.markNodeVisited(start);
     while (!this.queue.empty()) {
-      const node = this.queue.pop() as Node;
+      const node = this.queue.pop();
       if (node.id === goalId) {
         // Goal node found
         return this.graph.getParentPath(start, node);

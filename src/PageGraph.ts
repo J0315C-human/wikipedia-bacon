@@ -1,10 +1,12 @@
 import { Graph } from './Graph';
 import { getPageFromUrl } from './utils';
+import { FETCH_RETRIES } from './constants';
 
 export interface Page {
   id: string; // use URL as ID
   outgoingLinks: string[];
   parent?: Page;
+  pathString: string;
 }
 
 export default class PageGraph implements Graph<Page> {
@@ -12,12 +14,10 @@ export default class PageGraph implements Graph<Page> {
 
   getUnvisitedNeighbors = async (node: Page): Promise<(Page | undefined)[]> => {
     const unvisitedUrls = node.outgoingLinks.filter(url => {
-      const visited = this.visitedUrls.has(url);
-      if (visited) console.log('ALREADY VISITED: ' + url);
-      return !visited;
+      return !this.visitedUrls.has(url);
     });
     const pages = await Promise.all(
-      unvisitedUrls.map(async url => getPageFromUrl(url, 10))
+      unvisitedUrls.map(async url => getPageFromUrl(url, node, FETCH_RETRIES))
     );
     return pages.filter(page => page !== undefined);
   };
