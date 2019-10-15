@@ -15,11 +15,10 @@ export default class BFS<Node extends GraphNode> {
     this.queue.push(node);
   };
 
-  private enqueueUnvisitedNeighbors = async (node: Node) => {
-    const neighbors = await this.graph.getUnvisitedNeighbors(node);
+  private enqueueUnvisitedNeighbors = async (node: Node, goalId: string) => {
+    const neighbors = await this.graph.getUnvisitedNeighbors(node, goalId);
     neighbors.forEach(neighbor => {
       this.graph.markVisited(neighbor);
-      this.queue.push(neighbor);
       this.markNodeVisited(neighbor);
       this.graph.setParent(neighbor, node);
     });
@@ -37,7 +36,7 @@ export default class BFS<Node extends GraphNode> {
         // Goal node found
         return this.graph.getParentPath(start, node);
       }
-      await this.enqueueUnvisitedNeighbors(node);
+      await this.enqueueUnvisitedNeighbors(node, goalId);
     }
     console.log('Unable to find path to ' + goalId);
     return null;

@@ -12,13 +12,23 @@ export interface Page {
 export default class PageGraph implements Graph<Page> {
   visitedUrls = new Set<string>([]);
 
-  getUnvisitedNeighbors = async (node: Page): Promise<(Page | undefined)[]> => {
+  getUnvisitedNeighbors = async (
+    node: Page,
+    goalUrl: string
+  ): Promise<(Page | undefined)[]> => {
+    console.log(node.pathString);
     const unvisitedUrls = node.outgoingLinks.filter(url => {
       return !this.visitedUrls.has(url);
     });
+    // give up on fetching all the pages if the goal Url is included
+    if (unvisitedUrls.includes(goalUrl)) {
+      const goalPage = await getPageFromUrl(goalUrl, node, FETCH_RETRIES);
+      return [goalPage];
+    }
     const pages = await Promise.all(
       unvisitedUrls.map(async url => getPageFromUrl(url, node, FETCH_RETRIES))
     );
+
     return pages.filter(page => page !== undefined);
   };
 
