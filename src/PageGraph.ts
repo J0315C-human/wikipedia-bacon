@@ -1,6 +1,7 @@
 import { Graph } from './Graph';
-import { getPageFromUrl } from './utils';
+import { getPageFromUrl, HttpLib } from './utils';
 import { FETCH_RETRIES } from './constants';
+import axios from 'axios';
 
 export interface Page {
   id: string; // use URL as ID
@@ -11,22 +12,36 @@ export interface Page {
 
 export default class PageGraph implements Graph<Page> {
   visitedUrls = new Set<string>([]);
+  httpLib: HttpLib;
+  logging: boolean;
+  getPage: (
+    url: string,
+    parent?: Page,
+    retries?: number
+  ) => Promise<Page | undefined>;
+
+  constructor(httpLib: HttpLib = axios, logging = true) {
+    this.httpLib = httpLib;
+    this.logging = logging;
+    // this is aliased here to be able to inject an http library for testing
+    this.getPage = getPageFromUrl(httpLib);
+  }
 
   getUnvisitedNeighbors = async (
     node: Page,
     goalUrl: string
   ): Promise<(Page | undefined)[]> => {
-    console.log(node.pathString);
+    if (this.logging) console.log(node.pathString);
     const unvisitedUrls = node.outgoingLinks.filter(url => {
       return !this.visitedUrls.has(url);
     });
     // give up on fetching all the pages if the goal Url is included
     if (unvisitedUrls.includes(goalUrl)) {
-      const goalPage = await getPageFromUrl(goalUrl, node, FETCH_RETRIES);
+      const goalPage = await this.getPage(goalUrl, node, FETCH_RETRIES);
       return [goalPage];
     }
     const pages = await Promise.all(
-      unvisitedUrls.map(async url => getPageFromUrl(url, node, FETCH_RETRIES))
+      unvisitedUrls.map(async url => this.getPage(url, node, FETCH_RETRIES))
     );
 
     return pages.filter(page => page !== undefined);

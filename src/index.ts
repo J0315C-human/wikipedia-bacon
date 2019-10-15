@@ -12,7 +12,7 @@ const reader = readline.createInterface({
 });
 
 const runSearch = async (startUrl: string) => {
-  const startPage = await getPageFromUrl(startUrl, undefined, FETCH_RETRIES);
+  const startPage = await getPageFromUrl()(startUrl, undefined, FETCH_RETRIES);
   const pageBFS = new BFS(new PageGraph());
   const result = await pageBFS.performBFS(startPage, GOAL_URL);
   if (result) {

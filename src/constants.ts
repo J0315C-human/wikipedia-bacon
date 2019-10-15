@@ -1,5 +1,6 @@
 export const URL_BLACKLIST = [
   'action=edit',
+  '#cite_',
   'redlink=1',
   '/Special:',
   '/Template:',
