@@ -5,11 +5,15 @@ This is a breadth-first search that crawls through wikipedia links (outgoing lin
 
 It's a node console program - all input/output is through the console.
 
-To run, `npm install` and `npm start` from the root directory.
+## Dev Notes
+
+To run, `npm install` and `npm start` from the root directory (Node v. 10.16.3 was used in development).
 
 To run the tests, `npm run test` from the root directory.
 
-## Notes
+Since this is pretty small, all code is in the `src/` folder. Tests in the `test/` folder.
+
+## Thoughts
 😳😅
 
 This doesn't work well yet - it inefficiently relies on webcrawling, which is very slow once the program runs up a queue of a few thousand web pages. The maximum number of degrees of separation it can handle is probably 3, and even that takes forever to run. 
